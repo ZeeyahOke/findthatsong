@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find That Song</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Find That Song</h1>
+            <p>Find songs by their lyrics</p>
+        </header>
+        
+        <main>
+            <div class="search-section">
+                <textarea id="lyric-input" placeholder="Enter a song lyric snippet..."></textarea>
+                <button id="search-button">Find Song</button>
+            </div>
+            
+            <div id="results" class="results-section hidden">
+                <div class="loader hidden"></div>
+                <div id="song-details">
+                    <h2 id="song-title"></h2>
+                    <p id="artist-name"></p>
+                    <p id="genre"></p>
+                    <div id="additional-info"></div>
+                </div>
+                <div id="error-message" class="hidden"></div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Powered by Musixmatch API</p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
