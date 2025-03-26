@@ -8,85 +8,162 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px 20px;
 }
 
 header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 header h1 {
     color: #2c3e50;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 2.8rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+}
+
+header p {
+    color: #34495e;
+    font-size: 1.2rem;
 }
 
 .search-section {
     background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+
+.search-section:hover {
+    transform: translateY(-5px);
 }
 
 #lyric-input {
     width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 15px;
+    height: 120px;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 20px;
     font-size: 16px;
     resize: none;
+    transition: border-color 0.3s ease;
+}
+
+#lyric-input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
 }
 
 #search-button {
-    background-color: #3498db;
+    background: linear-gradient(to right, #3498db, #2980b9);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 12px 25px;
+    border-radius: 30px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    display: block;
+    margin: 0 auto;
 }
 
 #search-button:hover {
-    background-color: #2980b9;
+    background: linear-gradient(to right, #2980b9, #3498db);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
 }
 
 .results-section {
     background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 #song-title {
     color: #2c3e50;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 2rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
 }
 
 #artist-name {
-    font-size: 18px;
-    margin-bottom: 5px;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: #3498db;
+    font-weight: 600;
 }
 
 #genre {
     color: #7f8c8d;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-style: italic;
+    font-size: 1.1rem;
 }
 
 #additional-info {
-    border-top: 1px solid #eee;
-    padding-top: 15px;
+    border-top: 2px solid #f0f0f0;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+#additional-info p {
+    margin-bottom: 10px;
+}
+
+#additional-info a {
+    display: inline-block;
     margin-top: 15px;
+    color: white;
+    background: linear-gradient(to right, #3498db, #2980b9);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#additional-info a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
 }
 
 .hidden {
@@ -94,13 +171,13 @@ header h1 {
 }
 
 .loader {
-    border: 5px solid #f3f3f3;
+    border: 5px solid rgba(255, 255, 255, 0.3);
     border-top: 5px solid #3498db;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     animation: spin 1s linear infinite;
-    margin: 20px auto;
+    margin: 30px auto;
 }
 
 @keyframes spin {
@@ -111,12 +188,16 @@ header h1 {
 #error-message {
     color: #e74c3c;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
+    background-color: rgba(231, 76, 60, 0.1);
+    border-radius: 8px;
+    font-weight: 500;
 }
 
 footer {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 40px;
     color: #7f8c8d;
     font-size: 14px;
+    padding: 20px 0;
 }
