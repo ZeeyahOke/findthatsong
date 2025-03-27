@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const apiKey = '1d95e7505a701f4575da99b0195c25c3';
     const baseUrl = 'https://api.musixmatch.com/ws/1.1/';
+    const corsProxy = 'https://api.allorigins.win/raw?url=';
     
     // Track analytics for deployed site
     function logAnalytics(action, details = {}) {
@@ -46,16 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Search for track based on lyrics
             console.log('Searching for lyrics:', lyrics);
-            const searchResponse = await fetch(`${baseUrl}track.search?q_lyrics=${encodeURIComponent(lyrics)}&page_size=1&page=1&s_track_rating=desc&apikey=${apiKey}`);
+            const searchResponse = await fetch(`${corsProxy}${encodeURIComponent(baseUrl + 'track.search?q_lyrics=' + encodeURIComponent(lyrics) + '&page_size=1&page=1&s_track_rating=desc&apikey=' + apiKey)}`);
             
             if (!searchResponse.ok) {
                 console.error('API response not OK:', searchResponse.status, searchResponse.statusText);
+                const errorText = await searchResponse.text();
+                console.error('Error response body:', errorText);
                 showError(`API error: ${searchResponse.status} ${searchResponse.statusText}`);
                 return;
             }
             
             const searchData = await searchResponse.json();
-            console.log('Search response:', searchData);
+            console.log('Search response:', JSON.stringify(searchData, null, 2));
     
             if (searchData.message.header.status_code !== 200) {
                 console.error('API returned non-200 status:', searchData.message.header);
@@ -73,10 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Get more track details
             console.log('Getting details for track:', track.track_id);
-            const trackDetailsResponse = await fetch(`${baseUrl}track.get?track_id=${track.track_id}&apikey=${apiKey}`);
+            const trackDetailsResponse = await fetch(`${corsProxy}${encodeURIComponent(baseUrl + 'track.get?track_id=' + track.track_id + '&apikey=' + apiKey)}`);
             
             if (!trackDetailsResponse.ok) {
                 console.error('Track details API response not OK:', trackDetailsResponse.status);
+                const errorText = await trackDetailsResponse.text();
+                console.error('Error response body:', errorText);
                 showError(`API error when fetching details: ${trackDetailsResponse.status}`);
                 return;
             }
