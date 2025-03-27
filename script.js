@@ -42,26 +42,50 @@ document.addEventListener('DOMContentLoaded', () => {
         errorMessage.classList.add('hidden');
         
         logAnalytics('search_attempt', { query_length: lyrics.length });
-
+    
         try {
             // Search for track based on lyrics
+            console.log('Searching for lyrics:', lyrics);
             const searchResponse = await fetch(`${baseUrl}track.search?q_lyrics=${encodeURIComponent(lyrics)}&page_size=1&page=1&s_track_rating=desc&apikey=${apiKey}`);
+            
+            if (!searchResponse.ok) {
+                console.error('API response not OK:', searchResponse.status, searchResponse.statusText);
+                showError(`API error: ${searchResponse.status} ${searchResponse.statusText}`);
+                return;
+            }
+            
             const searchData = await searchResponse.json();
-
-            if (searchData.message.header.status_code !== 200 || !searchData.message.body.track_list.length) {
+            console.log('Search response:', searchData);
+    
+            if (searchData.message.header.status_code !== 200) {
+                console.error('API returned non-200 status:', searchData.message.header);
+                showError(`API error: ${searchData.message.header.status_code} - ${searchData.message.header.status_message}`);
+                return;
+            }
+            
+            if (!searchData.message.body.track_list || searchData.message.body.track_list.length === 0) {
                 showError('No songs found with those lyrics. Try a different lyric snippet.');
                 logAnalytics('search_no_results', { query: lyrics });
                 return;
             }
-
+    
             const track = searchData.message.body.track_list[0].track;
             
             // Get more track details
+            console.log('Getting details for track:', track.track_id);
             const trackDetailsResponse = await fetch(`${baseUrl}track.get?track_id=${track.track_id}&apikey=${apiKey}`);
+            
+            if (!trackDetailsResponse.ok) {
+                console.error('Track details API response not OK:', trackDetailsResponse.status);
+                showError(`API error when fetching details: ${trackDetailsResponse.status}`);
+                return;
+            }
+            
             const trackDetailsData = await trackDetailsResponse.json();
+            console.log('Track details response:', trackDetailsData);
             
             if (trackDetailsData.message.header.status_code !== 200) {
-                showError('Error fetching song details');
+                showError(`Error fetching song details: ${trackDetailsData.message.header.status_message}`);
                 logAnalytics('details_error', { track_id: track.track_id });
                 return;
             }
@@ -75,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 artist_name: trackDetails.artist_name
             });
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error details:', error);
             showError('An error occurred while searching. Please try again later.');
             logAnalytics('search_error', { error_message: error.message });
         } finally {
