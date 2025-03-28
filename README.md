@@ -6,12 +6,19 @@ Find that song is a web application that helps users find songs by searching for
 
 Features of the application include:
 - Search for songs using lyrics
-- Display song details including title, artist, genre, and album
+- Display song details, including title, artist, genre, and album
 - View full lyrics on Musixmatch
 - Responsive design
 - Loading indicators and error handling
 - Analytics tracking for deployed site
 
+## Links
+
+- Video: https://youtu.be/2puftlRWBZY
+- Git repo: https://github.com/ZeeyahOke/findthatsong
+- Website: www.zeeyahoke.tech
+
+  
 ## Prerequisites
 
 - A web browser (Chrome, Firefox, Safari, or Edge)
